@@ -21,8 +21,10 @@ jobs:
         run: |
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
             echo "job_name=frontend" >> $GITHUB_ENV
+            echo "test_name=frontend_test" >> $GITHUB_ENV
           elif [[ "${{ github.ref }}" == "refs/heads/dev" ]]; then
             echo "job_name=frontend_dev" >> $GITHUB_ENV
+            echo "test_name=frontend_test" >> $GITHUB_ENV
           else
             echo "No Jenkins job to trigger for this branch."
             exit 0
@@ -36,5 +38,7 @@ jobs:
           JOB_NAME: ${{ env.job_name }}
         run: |
           echo "Triggering Jenkins job $JOB_NAME"
+          echo "Triggering Jenkins Test $TEST_NAME"
           curl -X POST "$JENKINS_URL/buildByToken/build?job=$JOB_NAME&token=$JENKINS_TOKEN"
+          curl -X POST "$JENKINS_URL/buildByToken/build?job=$TEST_NAME&token=$JENKINS_TOKEN"
           
