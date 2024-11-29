@@ -1,6 +1,5 @@
 import { MOCK_USER1, MOCK_USER2, TOKEN } from "@mocks/data/users";
 import { http, HttpResponse } from "msw";
-import { userInfoInterface } from "types/user";
 
 type LoginRequestBody = {
   email: string;
@@ -46,7 +45,6 @@ export const loginMock = [
             data: {},
           },
           { status: 401 }
-          { status: 401 }
         );
       }
 
@@ -58,6 +56,7 @@ export const loginMock = [
           status: "success",
           data: {
             user: loggedInUser,
+
             sessionID: TOKEN,
           },
         },
@@ -67,9 +66,7 @@ export const loginMock = [
             "Set-Cookie": `sessionID=${TOKEN}; HttpOnly; SameSite=Strict; Path=/`,
           },
         }
-        }
       );
-    }
     }
   ),
 ];
