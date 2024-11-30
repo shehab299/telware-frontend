@@ -15,7 +15,12 @@ jobs:
   trigger-jenkins:
     runs-on: ubuntu-latest
 
+
     steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
       - name: Set Jenkins job name based on branch
         id: jenkins_job_name
         run: |
@@ -38,7 +43,16 @@ jobs:
           JOB_NAME: ${{ env.job_name }}
         run: |
           echo "Triggering Jenkins job $JOB_NAME"
-          echo "Triggering Jenkins Test $TEST_NAME"
           curl -X POST "$JENKINS_URL/buildByToken/build?job=$JOB_NAME&token=$JENKINS_TOKEN"
-          curl -X POST "$JENKINS_URL/buildByToken/build?job=$TEST_NAME&token=$JENKINS_TOKEN"
+
+      - name: Check Jenkins job status
+        if: env.job_name != ''
+        env:
+          JENKINS_URL: ${{vars.JENKINS_URL}}
+          JENKINS_TOKEN: ${{ secrets.JENKINS_USER_TOKEN }}
+          JOB_NAME: ${{ env.job_name }}
+        run: |
+          python3 .github/scripts/poll_jenkins.py $JOB_NAME $JENKINS_URL $JENKINS_TOKEN
+
+
           

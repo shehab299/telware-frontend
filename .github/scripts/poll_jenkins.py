@@ -15,4 +15,4 @@ while True:
         print(f"Build finished with status: {data.get('result')}")
         break
 
-    time.sleep(10)  # Wait 10 seconds before polling again
+    time.sleep(10)  
