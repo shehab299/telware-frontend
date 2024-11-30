@@ -21,5 +21,5 @@ jobs:
           JENKINS_TOKEN: ${{ secrets.JENKINS_TOKEN }}
         run: |
           echo "Triggering Jenkins job $JOB_NAME"
-          curl -X POST "$JENKINS_URL/buildByToken/build?job=frontend_test&token=$JENKINS_TOKEN"
+          curl -X POST "$JENKINS_URL/buildByToken/build?job=test_frontend&token=$JENKINS_TOKEN"
           
